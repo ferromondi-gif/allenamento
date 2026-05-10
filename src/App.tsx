@@ -38,9 +38,16 @@ export default function App() {
   const [data, setData] = useState<WorkoutData>(INITIAL_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
-  const next = () => setPage(p => p + 1);
-  const back = () => setPage(p => p - 1);
+  const next = () => {
+    setErrorDetails(null);
+    setPage(p => p + 1);
+  };
+  const back = () => {
+    setErrorDetails(null);
+    setPage(p => p - 1);
+  };
 
   const updateData = (updates: Partial<WorkoutData>) => {
     setData(prev => ({ ...prev, ...updates }));
@@ -48,6 +55,7 @@ export default function App() {
 
   const handleSend = async () => {
     setIsSubmitting(true);
+    setErrorDetails(null);
     try {
       // Logic to send data to Google Sheets via server endpoint
       const response = await fetch('/api/submit-workout', {
@@ -60,11 +68,12 @@ export default function App() {
         setSubmitted(true);
         next();
       } else {
-        alert('Errore durante l\'invio dei dati. Riprova più tardi.');
+        const errorText = await response.text();
+        setErrorDetails(`Errore Server (${response.status}): ${errorText || 'Nessun dettaglio'}`);
       }
-    } catch (error) {
-      console.error('Error submitting:', error);
-      alert('Si è verificato un errore di rete.');
+    } catch (err: any) {
+      console.error('Error submitting:', err);
+      setErrorDetails(`Errore di Rete: ${err.message || 'Controlla la connessione'}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -224,6 +233,16 @@ export default function App() {
                 </div>
 
                 <div className="space-y-3 pt-4">
+                  {errorDetails && (
+                    <div className="bg-red-500/10 border-2 border-red-500/20 p-4 rounded-2xl mb-4 text-left overflow-hidden">
+                      <div className="flex items-center gap-2 text-red-500 font-black text-xs uppercase mb-1">
+                        <Flame className="w-3 h-3" /> Errore Invio
+                      </div>
+                      <div className="text-[11px] text-red-200/70 font-mono break-all leading-tight">
+                        {errorDetails}
+                      </div>
+                    </div>
+                  )}
                   <button 
                     onClick={handleSend}
                     disabled={isSubmitting}
