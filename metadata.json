@@ -1,0 +1,6 @@
+{
+  "name": "Athletic Record & Workout Logger",
+  "description": "Un'applicazione intuitiva e motivante per registrare sessioni di allenamento, monitorare lo sforzo (RPE) e sincronizzare i dati con Google Sheets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

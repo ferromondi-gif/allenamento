@@ -1,0 +1,128 @@
+import React from 'react';
+import { motion } from 'motion/react';
+import { Clock } from 'lucide-react';
+import { cn } from '../lib/utils';
+
+interface ClockDialProps {
+  value: number;
+  min: number;
+  max: number;
+  onChange: (value: number) => void;
+}
+
+export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
+  // Map value to angle (25s -> -120deg, 70s -> 120deg)
+  const range = max - min;
+  const percentage = (value - min) / range;
+  const angle = (percentage * 240) - 120; // 240 degrees total sweep
+
+  // Calculate dynamic color based on percentage
+  const getDynamicColor = (p: number) => {
+    // Linear interpolation between Lime (189, 255, 0) and Orange/Red (255, 69, 0)
+    // For simplicity, we can use hex or simple logic
+    if (p < 0.5) {
+      // Lime -> Yellow
+      return `rgb(${189 + (255-189) * (p*2)}, 255, 0)`;
+    } else {
+      // Yellow -> Orange/Red
+      const p2 = (p - 0.5) * 2;
+      return `rgb(255, ${255 - (255-69) * p2}, 0)`;
+    }
+  };
+
+  const currentColor = getDynamicColor(percentage);
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
+        {/* Glow Effect */}
+        <div 
+          className="absolute inset-4 rounded-full blur-[40px] opacity-20 transition-colors duration-500" 
+          style={{ backgroundColor: currentColor }}
+        />
+
+        {/* Background Circle */}
+        <div className="absolute inset-0 rounded-full border-2 border-zinc-800 bg-zinc-900/50 flex items-center justify-center shadow-inner">
+          {/* Tick marks - more frequent for smoother look */}
+          {Array.from({ length: 46 }).map((_, i) => {
+            const tickAngle = (i / 45 * 240) - 120;
+            const isSet = value >= (min + (i/45)*range);
+            const isFiveSecond = (min + (i/45)*range) % 5 === 0;
+            
+            return (
+              <div 
+                key={i}
+                className="absolute origin-bottom transition-all duration-300"
+                style={{ 
+                  transform: `rotate(${tickAngle}deg) translateY(-100px)`,
+                  width: isFiveSecond ? '3px' : '1px',
+                  height: isFiveSecond ? '12px' : '6px',
+                  backgroundColor: isSet ? getDynamicColor((i/45)) : '#27272a',
+                  boxShadow: isSet ? `0 0 8px ${getDynamicColor((i/45))}` : 'none',
+                  bottom: '50%'
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {/* Center Text Wrapper */}
+        <div className="relative w-32 h-32 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center shadow-2xl z-10 transition-all duration-500 overflow-hidden">
+          <div 
+            className="absolute inset-0 opacity-10"
+            style={{ background: `radial-gradient(circle, ${currentColor} 0%, transparent 70%)` }}
+          />
+          <div className="text-center z-10 select-none">
+            <motion.div 
+              key={value}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-6xl font-black italic lora"
+              style={{ color: currentColor }}
+            >
+              {value}
+            </motion.div>
+            <div className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mt-[-4px]">Secondi</div>
+          </div>
+        </div>
+
+        {/* Hand */}
+        <motion.div 
+          className="absolute w-1.5 h-24 origin-bottom bottom-1/2 rounded-full z-20"
+          style={{ backgroundColor: currentColor, boxShadow: `0 0 15px ${currentColor}` }}
+          animate={{ rotate: angle }}
+          transition={{ type: "spring", stiffness: 120, damping: 15 }}
+        />
+
+        {/* Hidden Range Input for Interaction */}
+        <input 
+          type="range"
+          min={min}
+          max={max}
+          step="5"
+          value={value}
+          onChange={(e) => onChange(parseInt(e.target.value))}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-30"
+        />
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-2 mt-8 w-full max-w-sm px-2 pb-4">
+        {Array.from({ length: Math.floor((max - min) / 5) + 1 }, (_, i) => min + i * 5).map(v => (
+          <button
+            key={v}
+            onClick={() => onChange(v)}
+            className={cn(
+              "w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-2 font-black transition-all flex flex-col items-center justify-center",
+              value === v 
+                ? "bg-white border-white text-zinc-950 scale-110 shadow-lg" 
+                : "bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-600"
+            )}
+          >
+            <span className="text-xs sm:text-sm">{v}</span>
+            <span className="text-[7px] uppercase opacity-60">s</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
