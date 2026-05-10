@@ -83,16 +83,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-zinc-50 text-zinc-900 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 overflow-x-hidden pt-6 sm:pt-0 selection:bg-brand/30">
+    <div className="min-h-[100dvh] bg-zinc-950 text-zinc-100 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 overflow-x-hidden pt-6 sm:pt-0 selection:bg-brand/30">
       {/* Background Glow - Highly Optimized with Radial Gradients */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div 
-          className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] opacity-40 sm:opacity-60" 
-          style={{ background: 'radial-gradient(circle at center, rgba(189, 255, 0, 0.3) 0%, transparent 70%)' }}
+          className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] opacity-20 sm:opacity-30" 
+          style={{ background: 'radial-gradient(circle at center, rgba(189, 255, 0, 0.2) 0%, transparent 70%)' }}
         />
         <div 
-          className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] opacity-20 sm:opacity-40" 
-          style={{ background: 'radial-gradient(circle at center, rgba(96, 165, 250, 0.2) 0%, transparent 70%)' }}
+          className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] opacity-10 sm:opacity-20" 
+          style={{ background: 'radial-gradient(circle at center, rgba(96, 165, 250, 0.1) 0%, transparent 70%)' }}
         />
       </div>
 
@@ -105,10 +105,10 @@ export default function App() {
                   <Flame className="w-10 h-10 text-brand" />
                 </div>
                 <div className="space-y-4">
-                  <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase italic">
+                  <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase italic">
                     Allenamento
                   </h1>
-                  <p className="text-xl text-zinc-500 font-medium leading-relaxed px-4">
+                  <p className="text-xl text-zinc-400 font-medium leading-relaxed px-4">
                     Grande, hai concluso la sessione. <br />
                     Adesso facciamo un piccolo resoconto così capiamo insieme come modularci.
                   </p>
@@ -134,10 +134,7 @@ export default function App() {
                   updateData({ athleteName: name });
                   next();
                 }}
-                onBack={() => {
-                  // Salviamo comunque il nome se presente
-                  back();
-                }}
+                onBack={back}
               />
             </PageWrapper>
           )}
@@ -214,10 +211,10 @@ export default function App() {
                   <CheckCircle2 className="w-12 h-12 text-green-500" />
                 </motion.div>
                 <div className="space-y-4">
-                  <h1 className="text-4xl font-black tracking-tight text-zinc-950 uppercase italic">
+                  <h1 className="text-4xl font-black tracking-tight text-white uppercase italic">
                     Ottimo lavoro!
                   </h1>
-                  <p className="text-lg text-zinc-500 leading-relaxed px-4">
+                  <p className="text-lg text-zinc-400 leading-relaxed px-4">
                     Il tuo riassunto è pronto. Inviando i dati aggiornerai il tuo storico e potrai monitorare i tuoi progressi.
                   </p>
                 </div>
@@ -250,7 +247,7 @@ export default function App() {
                   <button 
                     onClick={() => setPage(4)}
                     disabled={isSubmitting}
-                    className="w-full h-14 bg-white border-2 border-zinc-200 text-zinc-500 font-bold rounded-2xl flex items-center justify-center gap-2 hover:text-zinc-900 transition-colors"
+                    className="w-full h-14 bg-zinc-900 border-2 border-zinc-800 text-zinc-400 font-bold rounded-2xl flex items-center justify-center gap-2 hover:text-white transition-colors"
                   >
                     MODIFICA
                   </button>
@@ -319,11 +316,11 @@ function PageWrapper(props: { children: React.ReactNode, key?: string }) {
   const { children } = props;
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.15, ease: "easeOut" }}
-      className="w-full will-change-transform"
+      initial={{ opacity: 0, x: 10 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -10 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      className="w-full will-change-[opacity,transform]"
     >
       {children}
     </motion.div>
@@ -345,8 +342,8 @@ function IdentityForm({ initialName, onNext, onBack }: { initialName: string, on
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <span className="text-brand-dark font-mono text-sm uppercase tracking-widest">Identità</span>
-        <h2 className="text-4xl font-black text-zinc-950 italic uppercase">Chi sei?</h2>
+        <span className="text-brand font-mono text-sm uppercase tracking-widest">Identità</span>
+        <h2 className="text-4xl font-black text-white italic uppercase">Chi sei?</h2>
       </div>
       <div className="relative">
         <input
@@ -354,12 +351,12 @@ function IdentityForm({ initialName, onNext, onBack }: { initialName: string, on
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Il tuo nome..."
-          className="w-full h-16 bg-white border-2 border-zinc-200 rounded-2xl px-6 text-xl text-zinc-950 placeholder:text-zinc-400 focus:border-brand focus:outline-none transition-colors"
+          className="w-full h-16 bg-zinc-900 border-2 border-zinc-800 rounded-2xl px-6 text-xl text-white placeholder:text-zinc-600 focus:border-brand focus:outline-none transition-colors"
         />
-        <User className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-300 pointer-events-none" />
+        <User className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-700 pointer-events-none" />
       </div>
       <div className="flex gap-4">
-        <button onClick={onBack} className="w-16 h-16 bg-white border-2 border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-zinc-900 transition-colors">
+        <button onClick={onBack} className="w-16 h-16 bg-zinc-900 border-2 border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button 
@@ -380,14 +377,14 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
     <div className="flex flex-col max-h-[85vh]">
       <div className="flex-1 overflow-y-auto px-1 space-y-4 pb-16 custom-scrollbar overscroll-contain">
         <div className="text-center space-y-0.5 mb-2">
-          <span className="text-brand-dark font-mono text-[9px] uppercase tracking-widest opacity-80">Dettaglio Sessione</span>
-          <h3 className="text-xl font-black text-zinc-950 italic uppercase tracking-tight">Sport Specifico</h3>
+          <span className="text-brand font-mono text-[9px] uppercase tracking-widest opacity-80">Dettaglio Sessione</span>
+          <h3 className="text-xl font-black text-white italic uppercase tracking-tight">Sport Specifico</h3>
         </div>
 
         <div className="space-y-6">
           {/* Disciplina */}
           <div className="space-y-2">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider block text-center">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">
               Disciplina
             </label>
             <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto px-1">
@@ -397,7 +394,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
                   onClick={() => updateData({ discipline: d as any })}
                   className={cn(
                     "h-11 rounded-xl text-[11px] font-black border-2 transition-all active:scale-95",
-                    data.discipline === d ? "bg-brand text-zinc-950 border-brand" : "bg-white border-zinc-200 text-zinc-500"
+                    data.discipline === d ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700"
                   )}
                 >
                   {d}
@@ -408,7 +405,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
 
           {/* Tipo */}
           <div className="space-y-2">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider block text-center">Tipo Attività</label>
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">Tipo Attività</label>
             <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto px-1">
               {['Libero', 'Addestram.', 'Specif.', 'Gara'].map(t => (
                 <button
@@ -416,7 +413,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
                   onClick={() => updateData({ type: t as any })}
                   className={cn(
                     "h-11 rounded-xl text-[11px] font-black border-2 transition-all active:scale-95",
-                    data.type === t ? "bg-brand text-zinc-950 border-brand" : "bg-white border-zinc-200 text-zinc-500"
+                    data.type === t ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700"
                   )}
                 >
                   {t}
@@ -426,9 +423,9 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Rounds */}
-          <div className="space-y-2 bg-white p-4 rounded-3xl border border-zinc-200 max-w-xs mx-auto shadow-sm">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
-               <Hash className="w-3 h-3 text-brand-dark" /> Numero di Giri
+          <div className="space-y-2 bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50 max-w-xs mx-auto shadow-sm">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+               <Hash className="w-3 h-3 text-brand" /> Numero di Giri
             </label>
             <input 
               type="range" min="1" max="22" value={data.rounds || 1}
@@ -436,45 +433,45 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
               className="w-full accent-brand h-6 cursor-pointer"
             />
             <div className="flex justify-between items-center px-2">
-              <span className="text-[10px] text-zinc-400 font-mono">1</span>
-              <div className="text-3xl font-black text-brand-dark italic">{data.rounds || 1}</div>
-              <span className="text-[10px] text-zinc-400 font-mono">22</span>
+              <span className="text-[10px] text-zinc-600 font-mono">1</span>
+              <div className="text-3xl font-black text-brand italic">{data.rounds || 1}</div>
+              <span className="text-[10px] text-zinc-600 font-mono">22</span>
             </div>
           </div>
 
           {/* Manche Duration (ClockDial) */}
           <div className="space-y-2 flex flex-col items-center">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider flex items-center gap-2 mb-1">
-              <Timer className="w-3 h-3 text-brand-dark" /> Durata Manche
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider flex items-center gap-2 mb-1">
+              <Timer className="w-3 h-3 text-brand" /> Durata Manche
             </label>
             <ClockDial 
               value={data.mancheDuration || 25} 
-              min={25} 
-              max={80} 
-              onChange={v => updateData({ mancheDuration: v })} 
+              min={25}
+              max={80}
+              onChange={val => updateData({ mancheDuration: val })} 
             />
           </div>
 
           {/* Session Duration */}
           <div className="space-y-2 max-w-xs mx-auto">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
-              <Clock className="w-3 h-3 text-brand-dark" /> Durata Seduta
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+              <Clock className="w-3 h-3 text-brand" /> Durata Seduta
             </label>
-            <div className="flex flex-col items-center gap-2 bg-white p-4 rounded-3xl border border-zinc-200 mx-2 shadow-sm">
+            <div className="flex flex-col items-center gap-2 bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50 mx-2 shadow-sm">
               <input 
                 type="range" min="1" max="8" step="0.5" value={data.sessionDuration || 2}
                 onChange={e => updateData({ sessionDuration: parseFloat(e.target.value) })}
                 className="w-full accent-brand h-6 cursor-pointer"
               />
-              <div className="text-2xl font-black text-zinc-900 italic">
-                {data.sessionDuration || 2}<span className="text-brand-dark text-xs ml-1">h</span>
+              <div className="text-2xl font-black text-zinc-100 italic">
+                {data.sessionDuration || 2}<span className="text-brand text-xs ml-1">h</span>
               </div>
             </div>
           </div>
 
           {/* Richiesta */}
           <div className="space-y-2 max-w-xs mx-auto px-2">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider block text-center">Focus</label>
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">Focus</label>
             <div className="flex flex-wrap justify-center gap-1.5">
               {['Tecnica', 'Tattica', 'Perf.', 'Svago'].map(tag => (
                 <button
@@ -485,7 +482,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
                   }}
                   className={cn(
                     "px-4 py-2 rounded-xl text-[9px] font-black border-2 transition-all active:scale-95",
-                    data.requests?.includes(tag) ? "bg-brand text-zinc-950 border-brand" : "bg-white border-zinc-200 text-zinc-500"
+                    data.requests?.includes(tag) ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700"
                   )}
                 >
                   {tag}
@@ -496,19 +493,19 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
 
           {/* Riassunto */}
           <div className="space-y-2 max-w-xs mx-auto px-2">
-            <label className="text-zinc-400 text-[9px] font-bold uppercase tracking-wider block text-center">Note</label>
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">Note</label>
             <textarea
               value={data.summary || ''}
               onChange={e => updateData({ summary: e.target.value })}
               placeholder="Com'è andata?"
-              className="w-full h-20 bg-white border-2 border-zinc-100 rounded-2xl p-4 text-[11px] focus:border-brand-dark focus:outline-none transition-colors resize-none shadow-sm"
+              className="w-full h-20 bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-4 text-[11px] focus:border-brand focus:outline-none transition-colors resize-none shadow-sm"
             />
           </div>
         </div>
       </div>
 
-      <div className="flex gap-4 pt-4 bg-zinc-50/80 backdrop-blur-md border-t border-zinc-200 mt-auto px-2 pb-2">
-        <button onClick={back} className="w-14 h-14 bg-white border-2 border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-zinc-900 transition-colors">
+      <div className="flex gap-4 pt-4 bg-zinc-950/80 backdrop-blur-md border-t border-zinc-900 mt-auto px-2 pb-2">
+        <button onClick={back} className="w-14 h-14 bg-zinc-900 border-2 border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button onClick={next} className="flex-1 h-14 bg-brand hover:bg-brand-dark text-zinc-950 font-black rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all uppercase italic text-sm">
@@ -523,8 +520,8 @@ function AltroForm({ data, updateData, back, next }: FormProps) {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <span className="text-brand-dark font-mono text-xs uppercase tracking-widest">Dettaglio</span>
-        <h3 className="text-3xl font-black text-zinc-950 italic uppercase">Altro Sport</h3>
+        <span className="text-brand font-mono text-xs uppercase tracking-widest">Dettaglio</span>
+        <h3 className="text-3xl font-black text-white italic uppercase">Altro Sport</h3>
       </div>
 
       <div className="space-y-6">
@@ -535,7 +532,7 @@ function AltroForm({ data, updateData, back, next }: FormProps) {
             value={data.description || ''}
             onChange={e => updateData({ description: e.target.value })}
             placeholder="Esempio: Bici, Corsa, Nuoto..."
-            className="w-full h-14 bg-white border border-zinc-200 rounded-xl px-4 text-zinc-900 focus:border-brand focus:outline-none"
+            className="w-full h-14 bg-zinc-900 border border-zinc-800 rounded-xl px-4 text-white focus:border-brand focus:outline-none"
           />
         </div>
 
@@ -553,7 +550,7 @@ function AltroForm({ data, updateData, back, next }: FormProps) {
                 onClick={() => updateData({ funFactor: f.v })}
                 className={cn(
                   "flex flex-col items-center justify-center py-3 rounded-2xl border transition-all gap-1",
-                  data.funFactor === f.v ? "bg-brand text-zinc-950 border-brand" : "bg-white border-zinc-200 text-zinc-400 hover:border-zinc-300"
+                  data.funFactor === f.v ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700"
                 )}
               >
                 <span className="text-2xl">{f.e}</span>
@@ -573,7 +570,7 @@ function AltroForm({ data, updateData, back, next }: FormProps) {
               onChange={e => updateData({ sessionDuration: parseFloat(e.target.value) })}
               className="flex-1 accent-brand"
             />
-            <div className="w-16 text-center font-black text-zinc-900 bg-white p-2 rounded-lg border border-zinc-200 shadow-sm">
+            <div className="w-16 text-center font-black text-zinc-100 bg-zinc-900 p-2 rounded-lg border border-zinc-800 shadow-sm">
               {data.sessionDuration || 2}h
             </div>
           </div>
@@ -581,7 +578,7 @@ function AltroForm({ data, updateData, back, next }: FormProps) {
       </div>
 
       <div className="flex gap-4">
-        <button onClick={back} className="w-16 h-16 bg-white border-2 border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-400">
+        <button onClick={back} className="w-16 h-16 bg-zinc-900 border-2 border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button onClick={next} disabled={!data.description} className="flex-1 h-16 bg-brand disabled:opacity-50 text-zinc-950 font-black rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md">
@@ -599,8 +596,8 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
   return (
     <div className="space-y-6 max-h-[80vh] overflow-y-auto px-1 custom-scrollbar">
       <div className="space-y-1">
-        <span className="text-brand-dark font-mono text-xs uppercase tracking-widest">Dettaglio</span>
-        <h3 className="text-3xl font-black text-zinc-950 italic uppercase">Prep. Atletica</h3>
+        <span className="text-brand font-mono text-xs uppercase tracking-widest">Dettaglio</span>
+        <h3 className="text-3xl font-black text-white italic uppercase">Prep. Atletica</h3>
       </div>
 
       <div className="space-y-6">
@@ -620,7 +617,7 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
                 }}
                 className={cn(
                   "h-12 rounded-xl text-xs font-bold border transition-all px-2 text-center",
-                  data.prepTypes?.includes(t) ? "bg-brand text-zinc-950 border-brand" : "bg-white border-zinc-200 text-zinc-500"
+                  data.prepTypes?.includes(t) ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-500"
                 )}
               >
                 {t}
@@ -636,8 +633,8 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
             </label>
             <div className="space-y-1">
             {levels.map((l, i) => {
-              const bgColors = ['bg-zinc-100', 'bg-green-50', 'bg-yellow-50', 'bg-orange-50', 'bg-red-50'];
-              const activeColors = ['bg-zinc-400', 'bg-green-400', 'bg-yellow-400', 'bg-orange-400', 'bg-red-400'];
+              const bgColors = ['bg-zinc-900', 'bg-green-950/40', 'bg-yellow-950/40', 'bg-orange-950/40', 'bg-red-950/40'];
+              const activeColors = ['bg-zinc-700', 'bg-green-500', 'bg-yellow-500', 'bg-orange-500', 'bg-red-500'];
               return (
                 <button
                   key={l}
@@ -646,7 +643,7 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
                     "w-full py-2.5 rounded-lg text-[10px] font-black uppercase text-center border transition-all",
                     data.intensity === i 
                       ? `${activeColors[i]} text-white border-white/20 shadow-md` 
-                      : `${bgColors[i]} border-zinc-200 text-zinc-600`
+                      : `${bgColors[i]} border-zinc-800 text-zinc-600`
                   )}
                 >
                   {i} - {l}
@@ -661,8 +658,8 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
             </label>
             <div className="space-y-1">
             {levels.map((l, i) => {
-              const bgColors = ['bg-zinc-100', 'bg-blue-50', 'bg-indigo-50', 'bg-violet-50', 'bg-fuchsia-50'];
-              const activeColors = ['bg-zinc-400', 'bg-blue-400', 'bg-indigo-400', 'bg-violet-400', 'bg-fuchsia-400'];
+              const bgColors = ['bg-zinc-900', 'bg-blue-950/40', 'bg-indigo-950/40', 'bg-violet-950/40', 'bg-fuchsia-950/40'];
+              const activeColors = ['bg-zinc-700', 'bg-blue-500', 'bg-indigo-500', 'bg-violet-500', 'bg-fuchsia-500'];
               return (
                 <button
                   key={l}
@@ -671,7 +668,7 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
                     "w-full py-2.5 rounded-lg text-[10px] font-black uppercase text-center border transition-all",
                     data.volume === i 
                       ? `${activeColors[i]} text-white border-white/20 shadow-md` 
-                      : `${bgColors[i]} border-zinc-200 text-zinc-600`
+                      : `${bgColors[i]} border-zinc-800 text-zinc-600`
                   )}
                 >
                   {i} - {l}
@@ -699,8 +696,8 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
         </div>
       </div>
 
-      <div className="flex gap-4 pt-4 sticky bottom-0 bg-zinc-50 pb-2">
-        <button onClick={back} className="w-14 h-14 bg-white border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-400">
+      <div className="flex gap-4 pt-4 sticky bottom-0 bg-zinc-950 pb-2">
+        <button onClick={back} className="w-14 h-14 bg-zinc-900 border-2 border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button onClick={next} disabled={!data.prepTypes?.length} className="flex-1 h-14 bg-brand disabled:opacity-50 text-zinc-950 font-black rounded-xl flex items-center justify-center gap-2 shadow-md">
