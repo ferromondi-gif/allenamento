@@ -83,15 +83,21 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-zinc-50 text-zinc-900 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 overflow-x-hidden pt-6 sm:pt-0">
-      {/* Background Glow */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand/30 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/20 blur-[120px] rounded-full" />
+    <div className="min-h-[100dvh] bg-zinc-50 text-zinc-900 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 overflow-x-hidden pt-6 sm:pt-0 selection:bg-brand/30">
+      {/* Background Glow - Highly Optimized with Radial Gradients */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div 
+          className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] opacity-40 sm:opacity-60" 
+          style={{ background: 'radial-gradient(circle at center, rgba(189, 255, 0, 0.3) 0%, transparent 70%)' }}
+        />
+        <div 
+          className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] opacity-20 sm:opacity-40" 
+          style={{ background: 'radial-gradient(circle at center, rgba(96, 165, 250, 0.2) 0%, transparent 70%)' }}
+        />
       </div>
 
       <div className="w-full max-w-xl relative z-10 py-4">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout" initial={false}>
           {page === 1 && (
             <PageWrapper key="p1">
               <div className="text-center space-y-8">
@@ -122,36 +128,17 @@ export default function App() {
 
           {page === 2 && (
             <PageWrapper key="p2">
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <span className="text-brand-dark font-mono text-sm uppercase tracking-widest">Identità</span>
-                  <h2 className="text-4xl font-black text-zinc-950 italic uppercase">Chi sei?</h2>
-                </div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={data.athleteName}
-                    onChange={(e) => updateData({ athleteName: e.target.value })}
-                    placeholder="Il tuo nome..."
-                    className="w-full h-16 bg-white border-2 border-zinc-200 rounded-2xl px-6 text-xl text-zinc-950 placeholder:text-zinc-400 focus:border-brand focus:outline-none transition-colors"
-                    autoFocus
-                  />
-                  <User className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-300 pointer-events-none" />
-                </div>
-                <div className="flex gap-4">
-                  <button onClick={back} className="w-16 h-16 bg-white border-2 border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-zinc-900 transition-colors">
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <button 
-                    onClick={next}
-                    disabled={!data.athleteName.trim()}
-                    className="flex-1 h-16 bg-brand disabled:opacity-50 disabled:cursor-not-allowed hover:bg-brand-dark text-zinc-950 font-black rounded-2xl flex items-center justify-center gap-2 transition-all"
-                  >
-                    AVANTI
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
-                </div>
-              </div>
+              <IdentityForm 
+                initialName={data.athleteName} 
+                onNext={(name) => {
+                  updateData({ athleteName: name });
+                  next();
+                }}
+                onBack={() => {
+                  // Salviamo comunque il nome se presente
+                  back();
+                }}
+              />
             </PageWrapper>
           )}
 
@@ -332,11 +319,11 @@ function PageWrapper(props: { children: React.ReactNode, key?: string }) {
   const { children } = props;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className="w-full will-change-[opacity,transform]"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
+      className="w-full will-change-transform"
     >
       {children}
     </motion.div>
@@ -350,6 +337,42 @@ interface FormProps {
   updateData: (updates: Partial<WorkoutData>) => void;
   back: () => void;
   next: () => void;
+}
+
+function IdentityForm({ initialName, onNext, onBack }: { initialName: string, onNext: (name: string) => void, onBack: () => void }) {
+  const [name, setName] = useState(initialName);
+  
+  return (
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <span className="text-brand-dark font-mono text-sm uppercase tracking-widest">Identità</span>
+        <h2 className="text-4xl font-black text-zinc-950 italic uppercase">Chi sei?</h2>
+      </div>
+      <div className="relative">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Il tuo nome..."
+          className="w-full h-16 bg-white border-2 border-zinc-200 rounded-2xl px-6 text-xl text-zinc-950 placeholder:text-zinc-400 focus:border-brand focus:outline-none transition-colors"
+        />
+        <User className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-300 pointer-events-none" />
+      </div>
+      <div className="flex gap-4">
+        <button onClick={onBack} className="w-16 h-16 bg-white border-2 border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-zinc-900 transition-colors">
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={() => onNext(name)}
+          disabled={!name.trim()}
+          className="flex-1 h-16 bg-brand disabled:opacity-50 disabled:cursor-not-allowed hover:bg-brand-dark text-zinc-950 font-black rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98]"
+        >
+          AVANTI
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function SpecificoForm({ data, updateData, back, next }: FormProps) {
