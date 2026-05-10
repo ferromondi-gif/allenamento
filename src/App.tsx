@@ -33,6 +33,8 @@ const INITIAL_DATA: WorkoutData = {
   timestamp: new Date().toISOString(),
 };
 
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzXOq6AmNPkr8wLzg_idkh96tijcew9wlGJyuOt9KT2GC9BQ66jYC-E3b2QyNyLmwT0mA/exec';
+
 export default function App() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState<WorkoutData>(INITIAL_DATA);
@@ -57,23 +59,17 @@ export default function App() {
     setIsSubmitting(true);
     setErrorDetails(null);
     try {
-      // Logic to send data to Google Sheets via server endpoint
-      const response = await fetch('/api/submit-workout', {
+      // Logic to send data to Google Sheets via Apps Script Webhook
+      await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
-        mode: 'no-cors'
+        mode: 'no-cors' // Use no-cors to avoid preflight issues from client-side
       });
 
-      // Se mode è 'no-cors', la risposta è 'opaque' (status 0).
-      // Procediamo se la fetch non ha sollevato eccezioni di rete.
-      if (response.type === 'opaque' || response.ok) {
-        setSubmitted(true);
-        next();
-      } else {
-        const errorText = await response.text();
-        setErrorDetails(`Errore Server (${response.status}): ${errorText || 'Nessun dettaglio'}`);
-      }
+      // With no-cors, we can't read the response, so we assume success if no network error
+      setSubmitted(true);
+      next();
     } catch (err: any) {
       console.error('Error submitting:', err);
       setErrorDetails(`Errore di Rete: ${err.message || 'Controlla la connessione e assicurati di usare HTTPS'}`);
