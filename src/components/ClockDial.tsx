@@ -52,14 +52,15 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
             return (
               <div 
                 key={i}
-                className="absolute origin-bottom transition-all duration-300"
+                className="absolute origin-bottom"
                 style={{ 
                   transform: `rotate(${tickAngle}deg) translateY(calc(-40% - 40px))`,
                   width: isFiveSecond ? '2px' : '1px',
                   height: isFiveSecond ? '8px' : '4px',
                   backgroundColor: isSet ? getDynamicColor((i/45)) : '#27272a',
                   boxShadow: isSet ? `0 0 8px ${getDynamicColor((i/45))}` : 'none',
-                  bottom: '50%'
+                  bottom: '50%',
+                  willChange: 'background-color, box-shadow'
                 }}
               />
             );
@@ -67,7 +68,7 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
         </div>
 
         {/* Center Text Wrapper */}
-        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center shadow-2xl z-10 transition-all duration-500 overflow-hidden">
+        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center shadow-2xl z-10 overflow-hidden">
           <div 
             className="absolute inset-0 opacity-10"
             style={{ background: `radial-gradient(circle, ${currentColor} 0%, transparent 70%)` }}
@@ -75,8 +76,9 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
           <div className="text-center z-10 select-none">
             <motion.div 
               key={value}
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0.5 }}
               animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.15 }}
               className="text-4xl sm:text-6xl font-black italic lora"
               style={{ color: currentColor }}
             >
@@ -88,10 +90,10 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
 
         {/* Hand */}
         <motion.div 
-          className="absolute w-1 h-16 sm:w-1.5 sm:h-24 origin-bottom bottom-1/2 rounded-full z-20"
+          className="absolute w-1 h-16 sm:w-1.5 sm:h-24 origin-bottom bottom-1/2 rounded-full z-20 will-change-transform"
           style={{ backgroundColor: currentColor, boxShadow: `0 0 15px ${currentColor}` }}
           animate={{ rotate: angle }}
-          transition={{ type: "spring", stiffness: 120, damping: 15 }}
+          transition={{ type: "spring", stiffness: 150, damping: 20 }}
         />
 
         {/* Hidden Range Input for Interaction */}
