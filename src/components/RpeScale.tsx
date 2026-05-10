@@ -26,10 +26,10 @@ const RPE_LABELS: Record<number, string> = {
 
 export function RpeScale({ value, onChange }: RpeScaleProps) {
   return (
-    <div className="space-y-6 w-full max-w-2xl mx-auto">
-      <div className="relative h-12 flex items-center">
+    <div className="space-y-4 w-full max-w-xs mx-auto">
+      <div className="relative h-10 flex items-center">
         {/* Gradient Track */}
-        <div className="absolute inset-0 h-4 bg-gradient-to-r from-green-500 via-yellow-400 to-red-500 rounded-full self-center" />
+        <div className="absolute inset-0 h-3 bg-gradient-to-r from-green-500 via-yellow-400 to-red-500 rounded-full self-center" />
         
         {/* Slider Input */}
         <input
@@ -39,29 +39,28 @@ export function RpeScale({ value, onChange }: RpeScaleProps) {
           step="1"
           value={value}
           onChange={(e) => onChange(parseInt(e.target.value))}
-          className="absolute inset-0 w-full h-12 opacity-0 cursor-pointer z-10"
+          className="absolute inset-0 w-full h-10 opacity-0 cursor-pointer z-10"
         />
 
         {/* Custom Thumb/Marker */}
         <div 
-          className="absolute h-8 w-8 bg-zinc-100 rounded-full border-4 border-zinc-950 shadow-xl pointer-events-none flex items-center justify-center text-zinc-900 font-bold transition-all"
-          style={{ left: `calc(${(value - 6) / (20 - 6) * 100}% - 1rem)` }}
+          className="absolute h-7 w-7 bg-zinc-100 rounded-full border-4 border-zinc-950 shadow-xl pointer-events-none flex items-center justify-center text-zinc-900 font-bold transition-all"
+          style={{ left: `calc(${(value - 6) / (20 - 6) * 100}% - 0.875rem)` }}
         >
-          <span className="text-xs">{value}</span>
+          <span className="text-[10px]">{value}</span>
         </div>
       </div>
 
-      <div className="text-center p-6 bg-zinc-900/50 rounded-2xl border border-zinc-800 shadow-inner">
-        <div className="text-4xl font-black text-brand mb-2">{value}</div>
-        <div className="text-lg font-medium text-zinc-200 min-h-[3rem] flex items-center justify-center">
+      <div className="text-center p-4 bg-zinc-900/50 rounded-2xl border border-zinc-800 shadow-inner">
+        <div className="text-3xl font-black text-brand mb-1">{value}</div>
+        <div className="text-sm font-medium text-zinc-200 min-h-[2.5rem] flex items-center justify-center px-4">
           {RPE_LABELS[value]}
         </div>
       </div>
       
-      {/* Labels below the visual feedback */}
-      <div className="flex justify-between px-2 text-[10px] font-mono text-zinc-600 uppercase tracking-tighter">
+      <div className="flex justify-between px-1 text-[9px] font-mono text-zinc-600 uppercase tracking-tighter">
         <span>Riposo</span>
-        <span>Sforzo Massimale</span>
+        <span>Massimale</span>
       </div>
     </div>
   );

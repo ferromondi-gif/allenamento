@@ -71,7 +71,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-4 sm:p-6 overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-zinc-950 text-zinc-100 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 overflow-x-hidden pt-6 sm:pt-0">
       {/* Background Glow */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand/10 blur-[120px] rounded-full" />
@@ -333,25 +333,25 @@ interface FormProps {
 function SpecificoForm({ data, updateData, back, next }: FormProps) {
   return (
     <div className="flex flex-col max-h-[85vh]">
-      <div className="flex-1 overflow-y-auto px-1 space-y-10 pb-10 custom-scrollbar overscroll-contain">
-        <div className="text-center space-y-1">
-          <span className="text-brand font-mono text-xs uppercase tracking-widest">Dettaglio Sessione</span>
-          <h3 className="text-3xl font-black text-white italic uppercase">Sport Specifico</h3>
+      <div className="flex-1 overflow-y-auto px-1 space-y-4 pb-16 custom-scrollbar overscroll-contain">
+        <div className="text-center space-y-0.5 mb-2">
+          <span className="text-brand font-mono text-[9px] uppercase tracking-widest opacity-80">Dettaglio Sessione</span>
+          <h3 className="text-xl font-black text-white italic uppercase tracking-tight">Sport Specifico</h3>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-6">
           {/* Disciplina */}
-          <div className="space-y-4">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">
+          <div className="space-y-2">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">
               Disciplina
             </label>
-            <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
-              {['Slalom', 'Gigante', 'Discipline Veloci', 'Altro'].map(d => (
+            <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto px-1">
+              {['Slalom', 'Gigante', 'Velocità', 'Altro'].map(d => (
                 <button
                   key={d}
                   onClick={() => updateData({ discipline: d as any })}
                   className={cn(
-                    "h-14 rounded-2xl text-sm font-black border-2 transition-all",
+                    "h-11 rounded-xl text-[11px] font-black border-2 transition-all active:scale-95",
                     data.discipline === d ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-400"
                   )}
                 >
@@ -362,15 +362,15 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Tipo */}
-          <div className="space-y-4">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">Tipo Attività</label>
-            <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
-              {['Campo Libero', 'Addestramento', 'Specifico', 'Gara'].map(t => (
+          <div className="space-y-2">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">Tipo Attività</label>
+            <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto px-1">
+              {['Libero', 'Addestram.', 'Specif.', 'Gara'].map(t => (
                 <button
                   key={t}
                   onClick={() => updateData({ type: t as any })}
                   className={cn(
-                    "h-14 rounded-2xl text-sm font-black border-2 transition-all",
+                    "h-11 rounded-xl text-[11px] font-black border-2 transition-all active:scale-95",
                     data.type === t ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-400"
                   )}
                 >
@@ -381,26 +381,26 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Rounds */}
-          <div className="space-y-4 bg-zinc-900/30 p-6 rounded-3xl border border-zinc-800/50 max-w-xs mx-auto">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
-               <Hash className="w-4 h-4 text-brand" /> Numero di Giri
+          <div className="space-y-2 bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50 max-w-xs mx-auto">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+               <Hash className="w-3 h-3 text-brand" /> Numero di Giri
             </label>
             <input 
               type="range" min="1" max="22" value={data.rounds || 1}
               onChange={e => updateData({ rounds: parseInt(e.target.value) })}
-              className="w-full accent-brand h-8 cursor-pointer"
+              className="w-full accent-brand h-6 cursor-pointer"
             />
             <div className="flex justify-between items-center px-2">
               <span className="text-[10px] text-zinc-600 font-mono">1</span>
-              <div className="text-4xl font-black text-brand italic drop-shadow-[0_0_10px_rgba(189,255,0,0.3)]">{data.rounds || 1}</div>
+              <div className="text-3xl font-black text-brand italic">{data.rounds || 1}</div>
               <span className="text-[10px] text-zinc-600 font-mono">22</span>
             </div>
           </div>
 
           {/* Manche Duration (ClockDial) */}
-          <div className="space-y-4 flex flex-col items-center py-6">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider flex items-center gap-2 mb-2">
-              <Timer className="w-4 h-4 text-brand" /> Durata Manche
+          <div className="space-y-2 flex flex-col items-center">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider flex items-center gap-2 mb-1">
+              <Timer className="w-3 h-3 text-brand" /> Durata Manche
             </label>
             <ClockDial 
               value={data.mancheDuration || 25} 
@@ -411,27 +411,27 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Session Duration */}
-          <div className="space-y-4 max-w-xs mx-auto">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
-              <Clock className="w-4 h-4 text-brand" /> Durata Seduta
+          <div className="space-y-2 max-w-xs mx-auto">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+              <Clock className="w-3 h-3 text-brand" /> Durata Seduta
             </label>
-            <div className="flex flex-col items-center gap-4 bg-zinc-900/30 p-6 rounded-3xl border border-zinc-800/50 mx-2">
+            <div className="flex flex-col items-center gap-2 bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50 mx-2">
               <input 
-                type="range" min="2" max="8" step="0.5" value={data.sessionDuration || 2}
+                type="range" min="1" max="8" step="0.5" value={data.sessionDuration || 2}
                 onChange={e => updateData({ sessionDuration: parseFloat(e.target.value) })}
-                className="w-full accent-brand h-8 cursor-pointer"
+                className="w-full accent-brand h-6 cursor-pointer"
               />
-              <div className="text-3xl font-black text-zinc-100 italic">
-                {data.sessionDuration || 2}<span className="text-brand text-lg ml-1">h</span>
+              <div className="text-2xl font-black text-zinc-100 italic">
+                {data.sessionDuration || 2}<span className="text-brand text-xs ml-1">h</span>
               </div>
             </div>
           </div>
 
           {/* Richiesta */}
-          <div className="space-y-4 max-w-xs mx-auto px-2">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">Richiesta Focus</label>
-            <div className="flex flex-wrap justify-center gap-2">
-              {['Tecnica', 'Tattica', 'Performance', 'Svago'].map(tag => (
+          <div className="space-y-2 max-w-xs mx-auto px-2">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">Focus</label>
+            <div className="flex flex-wrap justify-center gap-1.5">
+              {['Tecnica', 'Tattica', 'Perf.', 'Svago'].map(tag => (
                 <button
                   key={tag}
                   onClick={() => {
@@ -439,7 +439,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
                     updateData({ requests: current.includes(tag) ? current.filter(t => t !== tag) : [...current, tag] });
                   }}
                   className={cn(
-                    "px-6 py-3 rounded-2xl text-xs font-black border-2 transition-all",
+                    "px-4 py-2 rounded-xl text-[9px] font-black border-2 transition-all active:scale-95",
                     data.requests?.includes(tag) ? "bg-brand text-zinc-950 border-brand" : "bg-zinc-900 border-zinc-800 text-zinc-400"
                   )}
                 >
@@ -450,13 +450,13 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Riassunto */}
-          <div className="space-y-4 max-w-xs mx-auto px-2">
-            <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">Note e Riassunto</label>
+          <div className="space-y-2 max-w-xs mx-auto px-2">
+            <label className="text-zinc-500 text-[9px] font-bold uppercase tracking-wider block text-center">Note</label>
             <textarea
               value={data.summary || ''}
               onChange={e => updateData({ summary: e.target.value })}
-              placeholder="Com'è andata oggi?"
-              className="w-full h-32 bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-6 text-sm focus:border-brand focus:outline-none transition-colors resize-none shadow-inner"
+              placeholder="Com'è andata?"
+              className="w-full h-20 bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-4 text-[11px] focus:border-brand focus:outline-none transition-colors resize-none shadow-inner"
             />
           </div>
         </div>
