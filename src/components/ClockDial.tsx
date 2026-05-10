@@ -42,7 +42,7 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
         />
 
         {/* Background Circle */}
-        <div className="absolute inset-0 rounded-full border-2 border-zinc-800 bg-zinc-900/50 flex items-center justify-center shadow-inner">
+        <div className="absolute inset-0 rounded-full border-2 border-zinc-100 bg-white flex items-center justify-center shadow-inner">
           {/* Tick marks - more frequent for smoother look */}
           {Array.from({ length: 46 }).map((_, i) => {
             const tickAngle = (i / 45 * 240) - 120;
@@ -57,7 +57,7 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
                   transform: `rotate(${tickAngle}deg) translateY(calc(-40% - 40px))`,
                   width: isFiveSecond ? '2px' : '1px',
                   height: isFiveSecond ? '8px' : '4px',
-                  backgroundColor: isSet ? getDynamicColor((i/45)) : '#27272a',
+                  backgroundColor: isSet ? getDynamicColor((i/45)) : '#e4e4e7',
                   boxShadow: isSet ? `0 0 8px ${getDynamicColor((i/45))}` : 'none',
                   bottom: '50%',
                   willChange: 'background-color, box-shadow'
@@ -68,7 +68,7 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
         </div>
 
         {/* Center Text Wrapper */}
-        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center shadow-2xl z-10 overflow-hidden">
+        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white border border-zinc-100 flex items-center justify-center shadow-xl z-10 overflow-hidden">
           <div 
             className="absolute inset-0 opacity-10"
             style={{ background: `radial-gradient(circle, ${currentColor} 0%, transparent 70%)` }}
@@ -116,8 +116,8 @@ export function ClockDial({ value, min, max, onChange }: ClockDialProps) {
             className={cn(
               "w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-2 font-black transition-all flex flex-col items-center justify-center",
               value === v 
-                ? "bg-white border-white text-zinc-950 scale-110 shadow-lg" 
-                : "bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-600"
+                ? "bg-zinc-900 border-zinc-900 text-white scale-110 shadow-lg" 
+                : "bg-white border-zinc-200 text-zinc-400 hover:border-zinc-300"
             )}
           >
             <span className="text-xs sm:text-sm">{v}</span>

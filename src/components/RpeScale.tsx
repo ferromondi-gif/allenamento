@@ -44,16 +44,16 @@ export function RpeScale({ value, onChange }: RpeScaleProps) {
 
         {/* Custom Thumb/Marker */}
         <div 
-          className="absolute h-7 w-7 bg-zinc-100 rounded-full border-4 border-zinc-950 shadow-xl pointer-events-none flex items-center justify-center text-zinc-900 font-bold transition-all"
+          className="absolute h-7 w-7 bg-zinc-950 rounded-full border-4 border-white shadow-xl pointer-events-none flex items-center justify-center text-white font-bold transition-all"
           style={{ left: `calc(${(value - 6) / (20 - 6) * 100}% - 0.875rem)` }}
         >
           <span className="text-[10px]">{value}</span>
         </div>
       </div>
 
-      <div className="text-center p-4 bg-zinc-900/50 rounded-2xl border border-zinc-800 shadow-inner">
-        <div className="text-3xl font-black text-brand mb-1">{value}</div>
-        <div className="text-sm font-medium text-zinc-200 min-h-[2.5rem] flex items-center justify-center px-4">
+      <div className="text-center p-4 bg-white rounded-2xl border border-zinc-200 shadow-sm">
+        <div className="text-3xl font-black text-brand-dark mb-1">{value}</div>
+        <div className="text-sm font-medium text-zinc-600 min-h-[2.5rem] flex items-center justify-center px-4">
           {RPE_LABELS[value]}
         </div>
       </div>
