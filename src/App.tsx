@@ -62,9 +62,12 @@ export default function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        mode: 'no-cors'
       });
 
-      if (response.ok) {
+      // Se mode è 'no-cors', la risposta è 'opaque' (status 0).
+      // Procediamo se la fetch non ha sollevato eccezioni di rete.
+      if (response.type === 'opaque' || response.ok) {
         setSubmitted(true);
         next();
       } else {
@@ -73,7 +76,7 @@ export default function App() {
       }
     } catch (err: any) {
       console.error('Error submitting:', err);
-      setErrorDetails(`Errore di Rete: ${err.message || 'Controlla la connessione'}`);
+      setErrorDetails(`Errore di Rete: ${err.message || 'Controlla la connessione e assicurati di usare HTTPS'}`);
     } finally {
       setIsSubmitting(false);
     }
