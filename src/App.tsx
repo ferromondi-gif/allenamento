@@ -71,14 +71,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-4 sm:p-6 overflow-hidden">
+    <div className="min-h-[100dvh] bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-4 sm:p-6 overflow-x-hidden">
       {/* Background Glow */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full" />
       </div>
 
-      <div className="w-full max-w-xl relative z-10">
+      <div className="w-full max-w-xl relative z-10 py-4">
         <AnimatePresence mode="wait">
           {page === 1 && (
             <PageWrapper key="p1">
@@ -306,10 +306,10 @@ export default function App() {
   );
 }
 
-function PageWrapper({ children, key }: { children: React.ReactNode, key?: string }) {
+function PageWrapper(props: { children: React.ReactNode, key?: string }) {
+  const { children } = props;
   return (
     <motion.div
-      key={key}
       initial={{ opacity: 0, x: 20, scale: 0.98 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       exit={{ opacity: 0, x: -20, scale: 0.98 }}
@@ -332,8 +332,8 @@ interface FormProps {
 
 function SpecificoForm({ data, updateData, back, next }: FormProps) {
   return (
-    <div className="flex flex-col h-[75vh] sm:h-[80vh]">
-      <div className="flex-1 overflow-y-auto px-2 space-y-10 pb-10 custom-scrollbar">
+    <div className="flex flex-col max-h-[85vh]">
+      <div className="flex-1 overflow-y-auto px-1 space-y-10 pb-10 custom-scrollbar overscroll-contain">
         <div className="text-center space-y-1">
           <span className="text-brand font-mono text-xs uppercase tracking-widest">Dettaglio Sessione</span>
           <h3 className="text-3xl font-black text-white italic uppercase">Sport Specifico</h3>
@@ -345,7 +345,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
             <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">
               Disciplina
             </label>
-            <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+            <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
               {['Slalom', 'Gigante', 'Discipline Veloci', 'Altro'].map(d => (
                 <button
                   key={d}
@@ -364,7 +364,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           {/* Tipo */}
           <div className="space-y-4">
             <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">Tipo Attività</label>
-            <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+            <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
               {['Campo Libero', 'Addestramento', 'Specifico', 'Gara'].map(t => (
                 <button
                   key={t}
@@ -381,7 +381,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Rounds */}
-          <div className="space-y-4 bg-zinc-900/30 p-6 rounded-3xl border border-zinc-800/50 max-w-sm mx-auto">
+          <div className="space-y-4 bg-zinc-900/30 p-6 rounded-3xl border border-zinc-800/50 max-w-xs mx-auto">
             <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
                <Hash className="w-4 h-4 text-brand" /> Numero di Giri
             </label>
@@ -411,11 +411,11 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Session Duration */}
-          <div className="space-y-4 max-w-sm mx-auto">
+          <div className="space-y-4 max-w-xs mx-auto">
             <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
               <Clock className="w-4 h-4 text-brand" /> Durata Seduta
             </label>
-            <div className="flex flex-col items-center gap-4 bg-zinc-900/30 p-6 rounded-3xl border border-zinc-800/50">
+            <div className="flex flex-col items-center gap-4 bg-zinc-900/30 p-6 rounded-3xl border border-zinc-800/50 mx-2">
               <input 
                 type="range" min="2" max="8" step="0.5" value={data.sessionDuration || 2}
                 onChange={e => updateData({ sessionDuration: parseFloat(e.target.value) })}
@@ -428,7 +428,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Richiesta */}
-          <div className="space-y-4 max-w-sm mx-auto px-2">
+          <div className="space-y-4 max-w-xs mx-auto px-2">
             <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">Richiesta Focus</label>
             <div className="flex flex-wrap justify-center gap-2">
               {['Tecnica', 'Tattica', 'Performance', 'Svago'].map(tag => (
@@ -450,7 +450,7 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
           </div>
 
           {/* Riassunto */}
-          <div className="space-y-4 max-w-sm mx-auto px-2">
+          <div className="space-y-4 max-w-xs mx-auto px-2">
             <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block text-center">Note e Riassunto</label>
             <textarea
               value={data.summary || ''}
@@ -462,12 +462,12 @@ function SpecificoForm({ data, updateData, back, next }: FormProps) {
         </div>
       </div>
 
-      <div className="flex gap-4 pt-6 bg-zinc-950/80 backdrop-blur-md border-t border-zinc-900 mt-2 px-2 pb-4">
-        <button onClick={back} className="w-16 h-16 bg-zinc-900 border-2 border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
-          <ChevronLeft className="w-8 h-8" />
+      <div className="flex gap-4 pt-4 bg-zinc-950/80 backdrop-blur-md border-t border-zinc-900 mt-auto px-2 pb-2">
+        <button onClick={back} className="w-14 h-14 bg-zinc-900 border-2 border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
+          <ChevronLeft className="w-6 h-6" />
         </button>
-        <button onClick={next} className="flex-1 h-16 bg-brand hover:bg-brand-dark text-zinc-950 font-black rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_20px_-5px_rgba(189,255,0,0.3)] transition-all uppercase italic">
-          RIEPILOGO <ChevronRight className="w-6 h-6" />
+        <button onClick={next} className="flex-1 h-14 bg-brand hover:bg-brand-dark text-zinc-950 font-black rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_20px_-5px_rgba(189,255,0,0.3)] transition-all uppercase italic text-sm">
+          RIEPILOGO <ChevronRight className="w-5 h-5" />
         </button>
       </div>
     </div>
