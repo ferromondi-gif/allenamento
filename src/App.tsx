@@ -558,16 +558,16 @@ function AltroForm({ data, updateData, back, next }: FormProps) {
 
         <div className="space-y-2">
           <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-            <Clock className="w-3 h-3" /> Durata Seduta (h)
+            <Clock className="w-3 h-3" /> Durata Seduta (min)
           </label>
           <div className="flex items-center gap-4">
             <input 
-              type="range" min="2" max="8" step="0.5" value={data.sessionDuration || 2}
-              onChange={e => updateData({ sessionDuration: parseFloat(e.target.value) })}
+              type="range" min="30" max="180" step="10" value={data.sessionDuration || 60}
+              onChange={e => updateData({ sessionDuration: parseInt(e.target.value) })}
               className="flex-1 accent-brand"
             />
-            <div className="w-16 text-center font-black text-zinc-100 bg-zinc-900 p-2 rounded-lg border border-zinc-800 shadow-sm">
-              {data.sessionDuration || 2}h
+            <div className="w-20 text-center font-black text-zinc-100 bg-zinc-900 p-2 rounded-lg border border-zinc-800 shadow-sm">
+              {data.sessionDuration || 60} min
             </div>
           </div>
         </div>
@@ -689,6 +689,16 @@ function PreparazioneForm({ data, updateData, back, next }: FormProps) {
               {data.sessionDuration || 60} min
             </div>
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-zinc-500 text-xs font-bold uppercase tracking-wider block">Commento / Note</label>
+          <textarea
+            value={data.summary || ''}
+            onChange={e => updateData({ summary: e.target.value })}
+            placeholder="Aggiungi eventuali dettagli sull'allenamento..."
+            className="w-full h-24 bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-white focus:border-brand focus:outline-none resize-none"
+          />
         </div>
       </div>
 
