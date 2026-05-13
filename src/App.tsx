@@ -32,7 +32,6 @@ const INITIAL_DATA: WorkoutData = {
   rpe: 10,
   intensity: 2,
   volume: 2,
-  sessionDuration: 60,
   prepTypes: [],
   requests: [],
   timestamp: new Date().toISOString(),
@@ -70,7 +69,10 @@ export default function App() {
         category: data.category,
         rpe: data.rpe,
         timestamp: data.timestamp,
-        sessionDuration: data.sessionDuration,
+        // In Sport Specifico duration is in hours, convert to minutes for consistent storage
+        sessionDuration: data.category === 'Sport Specifico' 
+          ? (data.sessionDuration || 2) * 60 
+          : (data.sessionDuration || 60),
         summary: data.summary,
         // Category specific fields
         ...(data.category === 'Sport Specifico' && {
@@ -179,7 +181,10 @@ export default function App() {
                   {(['Sport Specifico', 'Altro Sport', 'Preparazione Atletica'] as ActivityCategory[]).map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => updateData({ category: cat })}
+                      onClick={() => updateData({ 
+                        category: cat,
+                        sessionDuration: cat === 'Sport Specifico' ? 2 : 60
+                      })}
                       className={cn(
                         "h-16 rounded-2xl text-lg font-bold border-2 transition-all flex items-center px-6 gap-4",
                         data.category === cat 
