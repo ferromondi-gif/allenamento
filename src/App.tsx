@@ -38,7 +38,7 @@ const INITIAL_DATA: WorkoutData = {
   timestamp: new Date().toISOString(),
 };
 
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzXOq6AmNPkr8wLzg_idkh96tijcew9wlGJyuOt9KT2GC9BQ66jYC-E3b2QyNyLmwT0mA/exec';
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbweNp2TfabTbxdEsZ6KlCjLIMp9CcSsT0SAsz_QL1NKqCKMLyHBPq7AhObsX-z4YR0YsA/exec';
 
 export default function App() {
   const [page, setPage] = useState(1);
