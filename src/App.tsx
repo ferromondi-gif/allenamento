@@ -30,6 +30,11 @@ const INITIAL_DATA: WorkoutData = {
   athleteName: '',
   category: null,
   rpe: 10,
+  intensity: 2,
+  volume: 2,
+  sessionDuration: 60,
+  prepTypes: [],
+  requests: [],
   timestamp: new Date().toISOString(),
 };
 
@@ -59,11 +64,38 @@ export default function App() {
     setIsSubmitting(true);
     setErrorDetails(null);
     try {
+      // Prepare data for submission, cleaning up based on category
+      const submissionData = {
+        athleteName: data.athleteName,
+        category: data.category,
+        rpe: data.rpe,
+        timestamp: data.timestamp,
+        sessionDuration: data.sessionDuration,
+        summary: data.summary,
+        // Category specific fields
+        ...(data.category === 'Sport Specifico' && {
+          discipline: data.discipline,
+          type: data.type,
+          rounds: data.rounds,
+          mancheDuration: data.mancheDuration,
+          requests: data.requests?.join(', ') || '',
+        }),
+        ...(data.category === 'Altro Sport' && {
+          description: data.description,
+          funFactor: data.funFactor,
+        }),
+        ...(data.category === 'Preparazione Atletica' && {
+          prepTypes: data.prepTypes?.join(', ') || '',
+          intensity: data.intensity,
+          volume: data.volume,
+        }),
+      };
+
       // Logic to send data to Google Sheets via Apps Script Webhook
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(submissionData),
         mode: 'no-cors' // Use no-cors to avoid preflight issues from client-side
       });
 
